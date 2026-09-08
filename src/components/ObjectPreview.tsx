@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Skeleton } from "@/components/ui/skeleton"
 import { fetchObjectText, objectUrl, parseCsv, splitName } from "@/lib/gcs"
 
-const MAX_ROWS = 200
+const MAX_ROWS = 5000
 
 type Props = {
   host: string
@@ -98,6 +98,9 @@ export function ObjectPreview({ host, bucket, name, onClose }: Props) {
           <table className="w-full border-collapse text-[11px]">
             <thead className="sticky top-0 z-10">
               <tr>
+                <th className="bg-card hairline text-muted-foreground border-r border-b px-2.5 py-1.5 text-right font-semibold tracking-[0.06em] whitespace-nowrap uppercase">
+                  #
+                </th>
                 {head.map((c, i) => (
                   <th
                     key={i}
@@ -111,6 +114,10 @@ export function ObjectPreview({ host, bucket, name, onClose }: Props) {
             <tbody>
               {shown.map((r, ri) => (
                 <tr key={ri} className="hover:bg-accent/40 transition-colors">
+                  {/* The file's own line number, so a row can be found in the raw CSV. */}
+                  <td className="hairline text-muted-foreground border-r border-b px-2.5 py-1.5 text-right font-mono tabular-nums whitespace-nowrap">
+                    {ri + 2}
+                  </td>
                   {head.map((_, ci) => (
                     <td
                       key={ci}
